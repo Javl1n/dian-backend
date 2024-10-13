@@ -20,6 +20,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(Request $request)
     {
+        // return response()->json(['data' => 1], 500);
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
