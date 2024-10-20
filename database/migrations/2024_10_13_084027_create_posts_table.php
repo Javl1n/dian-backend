@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(App\Models\User::class)->constrained()->onDelete('cascade');
             $table->mediumText('content')->nullable();
-            $table->boolean('validated')->default(false);
+            // $table->boolean('validated')->default(false);
             $table->boolean('profile')->default(false);
             $table->timestamps();
         });

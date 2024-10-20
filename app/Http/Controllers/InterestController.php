@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Interests;
+use App\Models\Interest;
 use Illuminate\Http\Request;
 
 class InterestController extends Controller
@@ -34,7 +34,7 @@ class InterestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Interests $interests)
+    public function show(Interest $interests)
     {
         //
     }
@@ -42,7 +42,7 @@ class InterestController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Interests $interests)
+    public function edit(Interest $interests)
     {
         //
     }
@@ -50,7 +50,7 @@ class InterestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Interests $interests)
+    public function update(Request $request, Interest $interests)
     {
         //
     }
@@ -58,7 +58,7 @@ class InterestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Interests $interests)
+    public function destroy(Interest $interests)
     {
         //
     }

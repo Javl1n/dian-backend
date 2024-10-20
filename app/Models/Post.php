@@ -13,6 +13,10 @@ class Post extends Model
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
 
+    protected $fillable = ['content', 'profile'];
+
+    protected $with = ['user'];
+
     /**
      * Get the user that owns the Post
      *

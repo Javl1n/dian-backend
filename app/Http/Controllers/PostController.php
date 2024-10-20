@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Response;
+use Validator;
 
 class PostController extends Controller
 {
@@ -12,7 +14,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::all();
+
+        // dd($posts);
+
+        return response()->json($posts);
     }
 
     /**
@@ -28,7 +34,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'text_content' => 'required',
+            'profile' => 'required|boolean',
+        ]);
+
+        // return error if validation fails
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    "errors" => $validator->messages()
+                ], 422);
+        }
+
+        $request->user()->posts()->create([
+            'content' => $request->text_content,
+            'profile' => $request->profile,
+        ]);
+
+        return response()->noContent();
     }
 
     /**
