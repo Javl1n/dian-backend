@@ -21,7 +21,6 @@ test('should_get_posts', function () {
         'profile' => false
     ]);
 
-
     $responsePost->assertStatus(204);
 
     $responseGet = $this->getJson('/api/posts');
