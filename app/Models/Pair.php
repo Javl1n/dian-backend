@@ -11,6 +11,8 @@ class Pair extends Model
     /** @use HasFactory<\Database\Factories\PairFactory> */
     use HasFactory;
 
+    protected $fillable = ['following_id', 'status'];
+
     /**
      * Get the follower that owns the Pair
      *

@@ -38,6 +38,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $with = [
+        'followers', 'following', 
+        // 'posts', 'currentProfilePost', 'comments', 'likes',
+        // 'participating', 'messages',
+        // 'interests',
+    ];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -98,22 +105,24 @@ class User extends Authenticatable
 
     /**
      * Get all of the followers for the User
+     * followers sa user
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function followers(): HasMany
     {
-        return $this->hasMany(Pair::class, 'follower_id');
+        return $this->hasMany(Pair::class, 'following_id');
     }
 
     /**
      * Get all of the following for the User
+     * gina follow sa user
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function following(): HasMany
     {
-        return $this->hasMany(Pair::class, 'following_id');
+        return $this->hasMany(Pair::class, 'follower_id');
     }
 
     /**

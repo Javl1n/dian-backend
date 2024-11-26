@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Models\Message;
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -26,9 +28,26 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Room $room ,Request $request)
     {
-        //
+        $request->validate([
+            'text_content' => 'required|string',
+        ]);
+
+        $user =  $request->user();
+
+        $message = $user->messages()->create([
+            'content' => $request->text_content,
+            'room_id' => $room->id,
+        ]);
+
+        // dd($message->with(['user'])->find($message->id));
+
+        $message = Message::where('id', $message->id)->first();
+
+        broadcast(new MessageSent($message));
+
+        return response()->noContent(200);
     }
 
     /**

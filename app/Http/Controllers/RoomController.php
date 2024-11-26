@@ -10,9 +10,15 @@ class RoomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+
+        $rooms = $user->participating->map(function ($participant) {
+            return $participant->room()->with(['participants', 'latestMessage'])->first();
+        });
+
+        return response()->json($rooms, 200);
     }
 
     /**
@@ -36,7 +42,8 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        //
+        $room = $room->with(['participants', 'messages'])->first();
+        return response()->json($room, 200);
     }
 
     /**

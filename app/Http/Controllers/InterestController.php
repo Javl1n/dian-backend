@@ -10,9 +10,22 @@ class InterestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $allInterests = Interest::whereNotIn(
+            column: 'id', 
+            values: $request->user()->interests
+                ->map(function ($interest) {
+                    return $interest->id;
+                })->toArray()
+        )->get()->map(fn($interest) => $interest->name);
+        
+        $myInterests = $request->user()->interests->map(fn($interest) => $interest->name);
+
+        return [
+            'all_interests' => $allInterests,
+            'my_interests' => $myInterests
+        ];
     }
 
     /**

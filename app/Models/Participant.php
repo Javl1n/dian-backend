@@ -11,6 +11,14 @@ class Participant extends Model
     /** @use HasFactory<\Database\Factories\ParticipantFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+    ];
+
+    protected $with = [
+        'user', 'room',
+    ];
+
     /**
      * Get the user that owns the Participant
      *

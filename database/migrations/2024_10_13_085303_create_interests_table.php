@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('interests', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->mediumText('description');
+            $table->string('name')->unique();
+            // $table->mediumText('description');
             $table->timestamps();
         });
     }
