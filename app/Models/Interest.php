@@ -11,6 +11,8 @@ class Interest extends Model
     /** @use HasFactory<\Database\Factories\InterestsFactory> */
     use HasFactory;
 
+    protected $fillable = ['name'];
+
     /**
      * The users that belong to the Interest
      *

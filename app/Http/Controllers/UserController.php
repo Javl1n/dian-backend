@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Interest;
 use App\Models\Room;
 use App\Models\User;
 use Hash;
@@ -21,30 +22,60 @@ class UserController extends Controller
     {   
         $validator = Validator::make($request->all(),[
             'name' => 'required|string',
+            'bio' => 'string',
             'password' => 'same:password_confirmation',
             'password_confirmation' => 'required_with:password',
+            'gender' => 'required|boolean',
+            'interests' => 'array',
+            'interests.*' => 'string',
+            // 'birthdate' => 'string',
         ]);
 
-        $birthdate = Carbon::createFromFormat('Y-m-d', $request->birth_date);
-
+        
         // return error if validation fails
         if ($validator->fails()) {
-            return response()->json(
-                [
-                    "errors" => $validator->messages()
-                ], 422);
+            // return response($validator->errors(), 500);
+            return response()->json([
+                "errors" => $validator->messages()
+            ], 422);
         }
 
+        $user = $request->user();
+            
         if (isset($request->password)) {
-            $request->user()->update([
+            $user->update([
                 'password' => Hash::make($request->password)
             ]);
         }
-
-        $request->user()->update([
-            'name' => $request->name
-        ]);
+            
         
+        $user->update([
+            'name' => $request->name,
+            'bio' => $request->bio,
+            'gender' => $request->gender,
+        ]);
+
+        if(isset($request->birthdate)) {
+            $birthdate = Carbon::createFromFormat('Y-m-d', $request->birthdate);
+            $user->update([
+                'birthdate' => $birthdate,
+            ]);
+        }
+
+        $user->interests()->detach();
+
+        foreach($request->interests as $interest) {
+            if ($interestObject = Interest::where('name', $interest)->first()) {
+                $interestObject->users()->attach($user->id);
+            } else {
+                $interestNewObject = Interest::create([
+                    'name' => $interest,
+                ]);
+
+                $interestNewObject->users()->attach($user->id);
+            }
+        }
+
         return response()->noContent(200);
     }
 

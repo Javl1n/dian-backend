@@ -12,13 +12,7 @@ class InterestController extends Controller
      */
     public function index(Request $request)
     {
-        $allInterests = Interest::whereNotIn(
-            column: 'id', 
-            values: $request->user()->interests
-                ->map(function ($interest) {
-                    return $interest->id;
-                })->toArray()
-        )->get()->map(fn($interest) => $interest->name);
+        $allInterests = Interest::all()->map(fn($interest) => $interest->name);
         
         $myInterests = $request->user()->interests->map(fn($interest) => $interest->name);
 

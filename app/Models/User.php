@@ -25,6 +25,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'bio',
+        'gender',
+        'birthdate',
         'password',
     ];
 
@@ -42,7 +45,7 @@ class User extends Authenticatable
         'followers', 'following', 
         // 'posts', 'currentProfilePost', 'comments', 'likes',
         // 'participating', 'messages',
-        // 'interests',
+        'interests',
     ];
 
     /**
